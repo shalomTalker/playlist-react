@@ -12,33 +12,57 @@ class AddPlaylistForm extends Component {
         }
 
     }
-
+    
     handleSubmit = (e) => {
         e.preventDefault();
         if (this.state.isFirstDialog) {
-            let albumImage = e.target.querySelector('input[type=file]').files[0]
-            let albumName = e.target.querySelector('input[type=text]').value
-            e.target.querySelector('input[type=text]').value = ""
+            e.target.value = ""
+            // let albumImage = e.target.querySelector('input[type=file]').files[0]
+            // let albumName = e.target.querySelector('input[type=text]').value
+            // e.target.querySelector('input[type=text]').value = ""
             this.setState({
-                albumName,
-                albumImage,
+            //     albumName,
+            //     albumImage,
                 isFirstDialog: false
             })
+            
         } else {
             let formData = new FormData();
             formData.append('name', this.state.albumName)
             formData.append('image', this.state.albumImage)
-            formData.append('songs', this.state.songsArray)
-
-            fetch('http://localhost:5000/playlist', {
-                method: "POST",
-                body: formData,
-                "Content-Type": "multipart/form-data;",
-            })
-            .then(response => {
-                console.log(response)
-                return response.text()
-            })
+            setTimeout(() => {
+            // console.log(formData)
+                
+                fetch('http://localhost:5000/playlist_addAlbum', {
+                    method: "POST",
+                    body: formData,
+                    "Content-Type": "multipart/form-data;"
+                }).then(response => {
+                    console.log(response)
+                    return response.text()
+                }).then(id=>{
+                    console.log(id)
+                    return fetch(`http://localhost:5000/playlist_addAlbum/${id}`, {
+                        method: "POST",
+                        body: JSON.stringify(this.state.songsArray),
+                        mode: "cors",
+                        headers: {
+                            "Content-Type": "application/json; charset=utf-8",
+                            // "Content-Type": "application/x-www-form-urlencoded",
+                        }
+                    }).then(response => {
+                        this.props.onClose()
+                        console.log(response)
+                        return response.json()
+                    }).then(data=>{
+                        console.log(data)
+                    }).catch(err => {
+                       (err) && 
+                       console.log("request failed", err)
+                    })
+                    // })/* .catch(err => {
+                }) 
+            }, 1000);
         }
     }
     drawImageScaled = (img, ctx) => {
@@ -56,20 +80,25 @@ class AddPlaylistForm extends Component {
         if (this.state.isFirstDialog) {
             this.setState({
                 [e.target.name]: e.target.value
+                // albumImage
+                // isFirstDialog: false
             })
+            // this.setState({
+            //     [e.target.name]: e.target.value
+            // })
         } else {
             const fieldsArr = Array.from(e.target.parentNode.parentNode.childNodes)
             fieldsArr.shift()
             let arr = []
-            fieldsArr.map(field=>{
+            fieldsArr.map(field => {
                 let obj = {};
-                Array.from(field.childNodes).map(node=>{
+                Array.from(field.childNodes).map(node => {
                     if (node.name && node.value) {
                         obj[node.name] = node.value
                         obj.songId = node.parentNode.getAttribute('data-key')
                     }
                 })
-                if (Object.keys(obj).length !== 0){
+                if (Object.keys(obj).length !== 0) {
                     arr = [...arr, obj]
                 }
             })
@@ -102,6 +131,12 @@ class AddPlaylistForm extends Component {
         };
 
         reader.readAsDataURL(input.files[0]);
+        this.setState({
+            // albumName,
+            [e.target.name]: e.target.files[0]
+            // isFirstDialog: false
+        })
+
     }
 
     render = () => {

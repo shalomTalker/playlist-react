@@ -7,7 +7,8 @@ router.get('/playlist', PlaylistCtrl.getAll)
 
 router.get('/playlist/:playlistId', PlaylistCtrl.getOne)
 
-router.post('/playlist',multer.single('image'), PlaylistCtrl.add)
+router.post('/playlist_addAlbum',multer.single('image'), PlaylistCtrl.addAlbum)
+router.post('/playlist_addAlbum/:playlistId', PlaylistCtrl.addSongs)
 router.put('/playlist/:playlistId', PlaylistCtrl.replace)
 router.delete('/playlist/:playlistId', PlaylistCtrl.delete)
 

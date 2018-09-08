@@ -1,5 +1,7 @@
 var Playlist = require('../models/playlist.js')
 var fs = require('fs')
+var multer = require('multer')({ dest: "uploads/" })
+
 
 class PlaylistCtrl {
 	static getAll (req, res) {
@@ -16,7 +18,8 @@ class PlaylistCtrl {
 			res.json(data)
 		})
 	}
-	static add (req, res) {
+	static addAlbum (req, res) {
+		console.log("first fetch", req.body, req.file)
 		var db = req.app.get('db')
 		if (!fs.existsSync(`../ui/public/docs/${req.body.name}`)) {
 			fs.mkdirSync(`../ui/public/docs/${req.body.name}`);
@@ -25,7 +28,12 @@ class PlaylistCtrl {
 			console.log(err)
 		})
 		req.body.image = `docs/${ req.body.name }/${req.file.originalname}`
-		Playlist.add(db, req.body);
+		Playlist.addAlbum(db, req.body, res);
+	}
+	static addSongs (req, res) {
+		var db = req.app.get('db')
+		Playlist.addSongs(db, req.body, req.params.playlistId)
+		console.log("second fetch", req.body)
 		res.send(201);
 	}
 	static replace (req, res) {

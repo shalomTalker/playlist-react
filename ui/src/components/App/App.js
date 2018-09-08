@@ -75,7 +75,7 @@ class App extends Component {
             ✗
           </button>
           <div role="document">
-            <AddPlaylistForm></AddPlaylistForm>
+            <AddPlaylistForm onClose={this.toggleDialogHandler}></AddPlaylistForm>
           </div>
         </dialog>
       </Dialog>
