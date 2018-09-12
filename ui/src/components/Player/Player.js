@@ -1,61 +1,53 @@
-import React, { Component } from 'react'
-export default class Player extends Component {
-    constructor(props) {
-        super(props)
-        this.state = {
-            currentSong: 0
-        }
-    }
-    componentDidMount = () => {
-       this.player = document.querySelector('audio')
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+
+class Player extends Component {
+    componentDidUpdate = () => {
+        this.player = document.querySelector('audio')
         this.player.addEventListener('ended', this.playNextHandler)
     }
     playNextHandler = (e) => {
-        let index = e.target.getAttribute("data-songid");
+        let index = this.props.player.songs.findIndex(song => { return song.url === e.target.getAttribute("src") });
         ++index
-        if (index < this.props.songs.length) {
-            this.setState({
-                currentSong: index
-            })
-            this.player.setAttribute("data-songid", index)
-            this.player.setAttribute("src", this.props.songs[index].url)
+        if (index < this.props.player.songs.length) {
+            console.log(index);
+            this.player.setAttribute("src", this.props.player.songs[index].url)
         }
     }
-    playClickedSongHandler = (e, url) => {
-        let index = e.target.getAttribute("data-songid");
-        console.log(index)
-        this.player.setAttribute("data-songid", index)
-        this.setState({
-            currentSong: index
-        })
-
+    playClickedSongHandler = (url) => {
         this.player.setAttribute("src", url )
     }
-    
-  render() {
-    return (
-      <div>
-          <audio 
-          src={this.props.songs[0].url} 
-          autoPlay
-          controls
-          muted 
-          data-songid = "0"
-          ></audio>
-            <ul>
+    render() {
+        return (
+            (this.props.player.isOpen) &&
+            <div>
+                <audio
+                    src={this.props.player.songs[0].url}
+                    autoPlay
+                    controls
+                    muted
+                ></audio>
+                <ul>
                 {
-                    this.props.songs.map((song, index) => {
+                        this.props.player.songs.map((song, index) => {
                         return(
                         <li 
-                        data-songid={index}
                         key={index}
-                        onClick={(e) => { this.playClickedSongHandler(e, song.url)}}
+                        onClick={() => { this.playClickedSongHandler(song.url)}}
                         className="track">{song.name}</li>
                         )
                     })
                 }
             </ul>
-      </div>
-    )
-  }
+            </div>
+        )
+    }
 }
+const mapStateToProps = state => ({
+    player: state.player
+})
+
+
+export default connect(mapStateToProps, null)(Player);
+

@@ -1,6 +1,5 @@
 var Playlist = require('../models/playlist.js')
 var fs = require('fs')
-var multer = require('multer')({ dest: "uploads/" })
 
 
 class PlaylistCtrl {
@@ -36,6 +35,7 @@ class PlaylistCtrl {
 		console.log("second fetch", req.body)
 		res.send(201);
 	}
+	
 	static replace (req, res) {
 		var db = req.app.get('db')
 		Playlist.replace(db, req.params.playlistId, req.body);
@@ -43,6 +43,7 @@ class PlaylistCtrl {
 	}
 	static delete (req, res) {
 		var db = req.app.get('db')
+		console.log(req.params.playlistId);
 		Playlist.delete(db, req.params.playlistId);
 		res.send(204);
 	}
