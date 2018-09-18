@@ -11,7 +11,7 @@ class Playlist {
 	}
 	static addAlbum(db, newAlbum, res) {
 		db.collection('playlist').insert(newAlbum, (err, records) => {
-			res.send(201, records.ops[0]._id)
+			res.status(201).send(records.ops[0]._id)
 		})
 	}
 	static addSongs(db, songs, playlistId) {

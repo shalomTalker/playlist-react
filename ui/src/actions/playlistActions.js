@@ -1,7 +1,10 @@
 import { SEARCH_BY_VALUE, FETCH_PLAYLISTS } from './types'
 
 export const fetchPlaylist = () => dispatch => {
-    fetch('http://localhost:5000/')
+    fetch('http://localhost:5000/', { 
+        credentials: 'same-origin', 
+        'Access-Control-Allow-Origin': '*' , 
+        mode: 'cors'})
     .then(res=> res.json())
     .then(playlists=> { 
         dispatch({

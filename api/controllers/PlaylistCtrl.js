@@ -33,7 +33,20 @@ class PlaylistCtrl {
 		var db = req.app.get('db')
 		Playlist.addSongs(db, req.body, req.params.playlistId)
 		console.log("second fetch", req.body)
-		res.send(201);
+		res.status(201).send('Added');
+	}
+
+	static replaceAlbum(req, res) {
+		console.log("first fetch", req.body, req.file)
+		var db = req.app.get('db')
+		// if (!fs.existsSync(`../ui/public/docs/${req.body.name}`)) {
+		// 	fs.mkdirSync(`../ui/public/docs/${req.body.name}`);
+		// }
+		fs.rename(req.file.path, `../ui/public/docs/${req.body.name}/${req.file.originalname}`, (err) => {
+			console.log(err)
+		})
+		req.body.image = `docs/${req.body.name}/${req.file.originalname}`
+		Playlist.addAlbum(db, req.body, res);
 	}
 	
 	static replace (req, res) {
@@ -45,7 +58,7 @@ class PlaylistCtrl {
 		var db = req.app.get('db')
 		console.log(req.params.playlistId);
 		Playlist.delete(db, req.params.playlistId);
-		res.send(204);
+		res.status(201).send('deleted');
 	}
 }
 

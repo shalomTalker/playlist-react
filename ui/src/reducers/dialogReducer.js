@@ -1,9 +1,9 @@
-import { OPEN_DIALOG, CLOSE_DIALOG, CHANGE_FORM } from '../actions/types';
+import { OPEN_DIALOG, CLOSE_DIALOG, CHANGE_DIALOG } from '../actions/types';
 
 const initialState = {
     DialogisOpen: false,
     ariaHide: false,
-    typeForm: null
+    typeDialog: null
 }
 
 export default (state = initialState, action) => {
@@ -12,19 +12,20 @@ export default (state = initialState, action) => {
             return {
                 DialogisOpen: action.payload.DialogisOpen,
                 ariaHide: action.payload.ariaHide,
-                typeForm: action.payload.typeForm
+                typeDialog: action.payload.typeDialog
             }
             case CLOSE_DIALOG:
             return {
                 DialogisOpen: action.payload.DialogisOpen,
                 ariaHide: action.payload.ariaHide,
-                typeForm: action.payload.typeForm
+                typeDialog: action.payload.typeDialog
             }
-            case CHANGE_FORM:
+            case CHANGE_DIALOG:
+            
             return {
                 DialogisOpen: action.payload.DialogisOpen,
                 ariaHide: action.payload.ariaHide,
-                typeForm: action.payload.typeForm
+                typeDialog: action.payload.typeDialog
             }
         default:
             return state

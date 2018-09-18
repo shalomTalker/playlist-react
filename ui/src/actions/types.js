@@ -3,7 +3,14 @@ export const SEARCH_BY_VALUE = 'SEARCH_BY_VALUE';
 export const OPEN_PLAYER = 'OPEN_PLAYER'; 
 export const OPEN_DIALOG = 'OPEN_DIALOG'; 
 export const CLOSE_DIALOG = 'CLOSE_DIALOG'; 
-export const CHANGE_FORM = 'CHANGE_FORM'; 
+export const CHANGE_DIALOG = 'CHANGE_DIALOG'; 
 export const GET_ALBUM_NAME = 'GET_ALBUM_NAME'; 
 export const GET_ALBUM_IMAGE = 'GET_ALBUM_IMAGE'; 
 export const GET_ALBUM_SONGS = 'GET_ALBUM_SONGS'; 
+export const ADD_SONG_FIELD = 'ADD_SONG_FIELD'; 
+export const REMOVE_SONG_FIELD = 'REMOVE_SONG_FIELD'; 
+export const IDENTIFY_PLAYLIST = 'IDENTIFY_PLAYLIST'; 
+// // export const REMOVE_SONG_FIELD = 'REMOVE_SONG_FIELD'; 
+// export const DELETE_PLAYLIST = 'DELETE_PLAYLIST'; 
+
+

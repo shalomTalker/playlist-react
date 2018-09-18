@@ -14,7 +14,7 @@ const AddAlbum = ({ handleSubmit, handleChange, handleFile}) => {
                 name="image"
                 onChange={handleFile}
                 type="file" />
-            <canvas style={{ border: "1px solid black" }}> </canvas>
+            <canvas width={250} height={125} style={{ border: "1px solid black" }}/>
             <input type="submit" value="Add" />
         </form>
     )

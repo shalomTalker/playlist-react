@@ -45,9 +45,9 @@ class Dialog extends Component {
     }
 
     outsideClickHandler = (e) => {
-        console.log(e.target);
-        let dialogPlace = document.getElementById('dialog');
-        if (!dialogPlace.contains(e.target)) {
+        // let dialogPlace = document.getElementById('dialog');
+        if (!this.inputField.contains(e.target)) {
+            console.log(typeof this.inputField)
             this.props.closeDialog();
         }
     }
@@ -56,14 +56,15 @@ class Dialog extends Component {
         const DialogEl = this.props.DialogisOpen && (
             <div>
                 <div id="dialog-overlay" ></div>
-                <dialog id="dialog">
+                <dialog id="dialog" ref={el => this.inputField = el}>
                     <button
                         aria-label="Close"
                         onClick={this.props.closeDialog}>
                         ✗
                     </button>
                     <div role="document">
-                        <Form onClose={this.props.closeDialog}></Form>
+                        
+                        <Form />
                     </div>
                 </dialog>
             </div>
@@ -75,7 +76,7 @@ class Dialog extends Component {
     }
 }
 const mapStateToProps = state => ({
-    DialogisOpen: state.dialog.DialogisOpen
+    DialogisOpen: state.dialog.DialogisOpen,
 
 })
 

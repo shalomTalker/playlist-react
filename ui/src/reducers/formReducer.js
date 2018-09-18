@@ -1,9 +1,17 @@
-import { GET_ALBUM_NAME, GET_ALBUM_IMAGE, GET_ALBUM_SONGS } from '../actions/types';
+import { 
+    GET_ALBUM_NAME, 
+    GET_ALBUM_IMAGE, 
+    GET_ALBUM_SONGS, 
+    ADD_SONG_FIELD,
+    REMOVE_SONG_FIELD,
+    IDENTIFY_PLAYLIST } from '../actions/types';
 
 const initialState = {
     albumName: null,
     albumImage: null,
-    albumSongs: []
+    albumSongs: [],
+    numOfFields: 3,
+    playlistObj: null
 }
 
 export default (state = initialState, action) => {
@@ -24,6 +32,21 @@ export default (state = initialState, action) => {
             return {
                 ...state,
                 albumSongs: action.payload
+            }
+        case ADD_SONG_FIELD:
+            return {
+                ...state,
+                numOfFields: action.payload+1
+            }
+        case REMOVE_SONG_FIELD:
+            return {
+                ...state,
+                numOfFields: action.payload-1
+            }
+        case IDENTIFY_PLAYLIST:
+            return {
+                ...state,
+                playlistObj: action.payload
             }
         default:
             return state
