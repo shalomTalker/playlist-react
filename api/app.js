@@ -10,19 +10,19 @@ var cors = require('cors')
 
 var connectionPromise = MongoClient.connect('mongodb://localhost:27017', { useNewUrlParser: true }); // it's a promise
 var db;
-var allowCrossDomain = function (req, res, next) {
-    res.header('Access-Control-Allow-Origin', '*');
-    res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
-    res.header('Access-Control-Allow-Headers', 'Content-Type');
+// var allowCrossDomain = function (req, res, next) {
+//     res.header('Access-Control-Allow-Origin', '*');
+//     res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
+//     res.header('Access-Control-Allow-Headers', 'Content-Type');
 
-    next();
-}
+//     next();
+// }
 var corsOptions = {
     origin: '*',
     methods: 'GET,PUT,POST,DELETE',
-    optionsSuccessStatus: 200 
+    optionsSuccessStatus: 200
 }
-app.use(allowCrossDomain);
+// app.use(allowCrossDomain);
 app.use(cors(corsOptions));
 app.use(bodyParser.json());
 app.use(messagesRouter);
@@ -30,6 +30,10 @@ app.use(messagesRouter);
 app.get('/', (req, res) => {
     res.redirect('/playlist')
 })
+// const viewBasicPath = path.join(__dirname + "/view");
+// app.use(express.static(viewBasicPath))
+// const port = process.env.PORT || 5000;
+
 
 connectionPromise.then(connection => {
     db = connection.db('playlist')
